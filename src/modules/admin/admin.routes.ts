@@ -17,6 +17,7 @@ import {
 } from "./admin.controller";
 import { authenticate } from "../../middlewares/auth.middleware";
 import { authorize } from "../../middlewares/role.middleware";
+import { confirmCODPaymentService } from "./admin.service";
 
 const adminRouter = Router();
 
@@ -35,6 +36,7 @@ adminRouter.patch("/sellers/:sellerId/reject", rejectSeller);
 adminRouter.patch("/sellers/:sellerId/suspend", suspendSeller);
 
 adminRouter.get("/orders", getAllOrders);
+adminRouter.patch('/orders/:orderId/confirm-cod', confirmCODPaymentService);
 
 adminRouter.get("/products", getAllProductsAdmin);
 adminRouter.patch("/products/:productId/status", updateProductStatusAdmin);

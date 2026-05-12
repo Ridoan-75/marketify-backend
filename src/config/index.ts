@@ -46,6 +46,17 @@ const envSchema = z.object({
   BKASH_USERNAME: z.string(),
   BKASH_PASSWORD: z.string(),
   SERVER_URL: z.string(),
+
+  PATHAO_BASE_URL: z.string(),
+  PATHAO_CLIENT_ID: z.string(),
+  PATHAO_CLIENT_SECRET: z.string(),
+  PATHAO_USERNAME: z.string(),
+  PATHAO_PASSWORD: z.string(),
+  PATHAO_STORE_ID: z.string(),
+
+  STEADFAST_BASE_URL: z.string(),
+  STEADFAST_API_KEY: z.string(),
+  STEADFAST_SECRET_KEY: z.string(),
 });
 
 const parsed = envSchema.safeParse(process.env);

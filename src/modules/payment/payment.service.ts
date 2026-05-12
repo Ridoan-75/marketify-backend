@@ -22,6 +22,8 @@ export const initiatePaymentService = async (
       return initSSLCommerzPayment(orderId, userId);
     case "BKASH":
       return createBkashPayment(orderId, userId);
+    case "COD":
+      return handleCODPayment(orderId, userId);
     default:
       throw new AppError("Unsupported payment method", 400);
   }
@@ -92,4 +94,31 @@ export const requestRefundService = async (orderId: string, userId: string) => {
   });
 
   return { message: "Refund requested successfully." };
+};
+
+const handleCODPayment = async (orderId: string, userId: string) => {
+  const order = await prisma.order.findFirst({
+    where: { id: orderId, userId },
+    include: { payment: true },
+  });
+
+  if (!order) throw new AppError("Order not found", 404);
+  if (order.payment?.status === "PAID")
+    throw new AppError("Order already paid", 400);
+
+  // COD তে payment confirmed হবে delivery এর সময়
+  await prisma.payment.update({
+    where: { orderId },
+    data: {
+      method: "COD",
+      status: "PENDING",
+    },
+  });
+
+  await prisma.order.update({
+    where: { id: orderId },
+    data: { status: "CONFIRMED" },
+  });
+
+  return { message: "Cash on delivery order confirmed.", method: "COD" };
 };

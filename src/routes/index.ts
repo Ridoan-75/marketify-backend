@@ -14,6 +14,7 @@ import { adminRouter } from '../modules/admin/admin.routes';
 import { notificationRouter } from '../modules/notification/notification.routes';
 import { chatRouter } from '../modules/chat/chat.routes';
 import { paymentRouter } from '../modules/payment/payment.routes';
+import { deliveryRouter } from '../modules/delivery/delivery.routes';
 
 const router = Router();
 
@@ -32,5 +33,6 @@ router.use('/admin', adminRouter);
 router.use('/notifications', notificationRouter);
 router.use('/chat', chatRouter);
 router.use('/payment', paymentRouter);
+router.use('/delivery', deliveryRouter);
 
 export { router };

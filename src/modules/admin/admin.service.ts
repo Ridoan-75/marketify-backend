@@ -317,3 +317,43 @@ export const processWithdrawalService = async (
     return updated;
   });
 };
+
+export const confirmCODPaymentService = async (orderId: string) => {
+  const payment = await prisma.payment.findUnique({ where: { orderId } });
+  if (!payment) throw new AppError("Payment not found", 404);
+  if (payment.method !== "COD") throw new AppError("Not a COD order", 400);
+  if (payment.status === "PAID")
+    throw new AppError("Already marked as paid", 400);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.payment.update({
+      where: { orderId },
+      data: { status: "PAID", paidAt: new Date() },
+    });
+
+    await tx.order.update({
+      where: { id: orderId },
+      data: { status: "DELIVERED" },
+    });
+
+    const orderItems = await tx.orderItem.findMany({ where: { orderId } });
+
+    for (const item of orderItems) {
+      await tx.seller.update({
+        where: { id: item.sellerId },
+        data: {
+          totalEarnings: { increment: item.totalPrice * 0.9 },
+          balance: { increment: item.totalPrice * 0.9 },
+          totalSales: { increment: 1 },
+        },
+      });
+
+      await tx.product.update({
+        where: { id: item.productId },
+        data: { totalSold: { increment: item.quantity } },
+      });
+    }
+  });
+
+  return true;
+};
