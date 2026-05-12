@@ -7,6 +7,10 @@ import { productRouter } from '../modules/product/product.routes';
 import { cartRouter } from '../modules/cart/cart.routes';
 import { couponRouter } from '../modules/coupon/coupon.routes';
 import { orderRouter } from '../modules/order/order.routes';
+import { reviewRouter } from '../modules/review/review.routes';
+import { wishlistRouter } from '../modules/wishlist/wishlist.routes';
+import { bannerRouter } from '../modules/banner/banner.routes';
+import { adminRouter } from '../modules/admin/admin.routes';
 
 
 const router = Router();
@@ -19,5 +23,9 @@ router.use('/products', productRouter);
 router.use('/cart', cartRouter);
 router.use('/coupons', couponRouter);
 router.use('/orders', orderRouter);
+router.use('/reviews', reviewRouter);
+router.use('/wishlist', wishlistRouter);
+router.use('/banners', bannerRouter);
+router.use('/admin', adminRouter);
 
 export { router };
