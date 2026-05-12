@@ -4,16 +4,17 @@ import { app } from './app';
 import { env } from './config/index';
 import { prisma } from './lib/prisma';
 import { redis } from './config/redis';
+import { initSocket } from './socket/socket.server';
 
 const server = http.createServer(app);
+
+// init socket
+initSocket(server);
 
 const startServer = async (): Promise<void> => {
   try {
     await prisma.$connect();
     console.log('Database connected');
-
-    await redis.connect();
-    console.log('Redis connected');
 
     server.listen(env.PORT, () => {
       console.log(`Marketify server running on port ${env.PORT}`);

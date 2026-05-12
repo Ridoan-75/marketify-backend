@@ -11,7 +11,8 @@ import { reviewRouter } from '../modules/review/review.routes';
 import { wishlistRouter } from '../modules/wishlist/wishlist.routes';
 import { bannerRouter } from '../modules/banner/banner.routes';
 import { adminRouter } from '../modules/admin/admin.routes';
-
+import { notificationRouter } from '../modules/notification/notification.routes';
+import { chatRouter } from '../modules/chat/chat.routes';
 
 const router = Router();
 
@@ -27,5 +28,7 @@ router.use('/reviews', reviewRouter);
 router.use('/wishlist', wishlistRouter);
 router.use('/banners', bannerRouter);
 router.use('/admin', adminRouter);
+router.use('/notifications', notificationRouter);
+router.use('/chat', chatRouter);
 
 export { router };
