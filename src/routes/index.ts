@@ -15,6 +15,7 @@ import { notificationRouter } from '../modules/notification/notification.routes'
 import { chatRouter } from '../modules/chat/chat.routes';
 import { paymentRouter } from '../modules/payment/payment.routes';
 import { deliveryRouter } from '../modules/delivery/delivery.routes';
+import { aiRouter } from '../modules/ai/ai.routes';
 
 const router = Router();
 
@@ -34,5 +35,7 @@ router.use('/notifications', notificationRouter);
 router.use('/chat', chatRouter);
 router.use('/payment', paymentRouter);
 router.use('/delivery', deliveryRouter);
+router.use('/ai', aiRouter);
+
 
 export { router };

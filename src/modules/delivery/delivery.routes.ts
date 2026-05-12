@@ -12,20 +12,8 @@ const deliveryRouter = Router();
 
 deliveryRouter.use(authenticate);
 
-// seller
-deliveryRouter.post(
-  '/initiate',
-  authorize('SELLER'),
-  initiateDelivery
-);
-
-deliveryRouter.patch(
-  '/:orderItemId/status',
-  authorize('SELLER'),
-  updateDeliveryStatus
-);
-
-// user + seller
+deliveryRouter.post('/initiate', authorize('SELLER'), initiateDelivery);
+deliveryRouter.patch('/:orderItemId/status', authorize('SELLER'), updateDeliveryStatus);
 deliveryRouter.get('/:orderItemId/track', trackDelivery);
 deliveryRouter.get('/:orderItemId', getDeliveryByOrderItem);
 

@@ -23,7 +23,7 @@ const envSchema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string(),
   CLOUDINARY_API_KEY: z.string(),
   CLOUDINARY_API_SECRET: z.string(),
-  CLAUDE_API_KEY: z.string(),
+  GEMINI_API_KEY: z.string(),
   CLIENT_URL: z.string(),
 });
 

@@ -18,13 +18,9 @@ export const initiateDelivery = asyncHandler(
     });
     if (!seller) throw new AppError("Seller not found", 404);
 
-    const { orderItemId, provider } = req.body;
+    const { orderItemId } = req.body;
 
-    const delivery = await initiateDeliveryService(
-      orderItemId,
-      provider,
-      seller.id,
-    );
+    const delivery = await initiateDeliveryService(orderItemId, seller.id);
     sendResponse({
       res,
       statusCode: 201,
@@ -33,7 +29,6 @@ export const initiateDelivery = asyncHandler(
     });
   },
 );
-
 export const trackDelivery = asyncHandler(
   async (req: AuthRequest, res: Response) => {
     const result = await trackDeliveryService(
