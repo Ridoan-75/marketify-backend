@@ -1,17 +1,42 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import { env } from './config/index';
+import { globalErrorHandler } from './errors/globalErrorHandler';
+import { AppError } from './errors/AppError';
+import { router } from './routes/index';
 
 const app: Application = express();
 
-// parsers
-app.use(express.json());
-app.use(cors());
+app.use(helmet());
+app.use(
+  cors({
+    origin: env.CLIENT_URL,
+    credentials: true,
+  })
+);
+app.use(morgan(env.NODE_ENV === 'development' ? 'dev' : 'combined'));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// application routes
-// app.use('/api/v1', router);
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from Apollo Gears World!');
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Marketify server is running',
+    environment: env.NODE_ENV,
+    timestamp: new Date().toISOString(),
+  });
 });
 
-export default app;
+app.use('/api/v1', router);
+
+app.all('/{*splat}', (req, res, next) => {
+  next(new AppError(`Route ${req.originalUrl} not found`, 404));
+});
+
+app.use(globalErrorHandler);
+
+export { app };
