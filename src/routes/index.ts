@@ -13,6 +13,7 @@ import { bannerRouter } from '../modules/banner/banner.routes';
 import { adminRouter } from '../modules/admin/admin.routes';
 import { notificationRouter } from '../modules/notification/notification.routes';
 import { chatRouter } from '../modules/chat/chat.routes';
+import { paymentRouter } from '../modules/payment/payment.routes';
 
 const router = Router();
 
@@ -30,5 +31,6 @@ router.use('/banners', bannerRouter);
 router.use('/admin', adminRouter);
 router.use('/notifications', notificationRouter);
 router.use('/chat', chatRouter);
+router.use('/payment', paymentRouter);
 
 export { router };
