@@ -1,89 +1,76 @@
-import bcrypt from 'bcryptjs';
 import { prisma } from '../../lib/prisma';
 import { AppError } from '../../errors/AppError';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/generateToken';
+import { redis } from '../../config/redis';
+import { admin } from '../../config/firebase';
+import { FirebaseLoginInput, ForgotPasswordInput, ResetPasswordInput } from './auth.validation';
+import bcrypt from 'bcryptjs';
 import { sendEmail } from '../../utils/sendEmail';
 import { generateOtp, saveOtp, verifyOtp } from '../../utils/otp';
-import { verifyEmailTemplate, resetPasswordTemplate } from '../../utils/emailTemplate';
-import { redis } from '../../config/redis';
-import {
-  RegisterInput,
-  LoginInput,
-  VerifyEmailInput,
-  ForgotPasswordInput,
-  ResetPasswordInput,
-} from './auth.validation';
+import { resetPasswordTemplate } from '../../utils/emailTemplate';
 
-const REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60; // 7 days in seconds
+const REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60;
 
-export const registerService = async (data: RegisterInput) => {
-  const existing = await prisma.user.findUnique({ where: { email: data.email } });
-  if (existing) throw new AppError('Email already registered', 409);
+// Firebase token verify kore DB te user sync korbe
+export const firebaseLoginService = async (data: FirebaseLoginInput) => {
+  // Firebase token verify
+  let decoded;
+  try {
+    decoded = await admin.auth().verifyIdToken(data.firebaseToken);
+  } catch {
+    throw new AppError('Invalid Firebase token', 401);
+  }
 
-  const hashedPassword = await bcrypt.hash(data.password, 12);
+  const { uid, email, name, picture, firebase } = decoded;
+  const providerRaw = firebase?.sign_in_provider;
 
-  const user = await prisma.user.create({
-    data: {
-      name: data.name,
-      email: data.email,
-      password: hashedPassword,
-      phone: data.phone,
-    },
-    select: { id: true, name: true, email: true, role: true },
-  });
+  // Provider determine
+  let provider: 'GOOGLE' | 'FACEBOOK' | 'EMAIL' = 'EMAIL';
+  if (providerRaw === 'google.com') provider = 'GOOGLE';
+  else if (providerRaw === 'facebook.com') provider = 'FACEBOOK';
 
-  const otp = generateOtp();
-  await saveOtp(data.email, otp, 'verify_email');
-  await sendEmail({
-    to: data.email,
-    subject: 'Verify your Marketify account',
-    html: verifyEmailTemplate(data.name, otp),
-  });
+  if (!email) throw new AppError('Email not found from Firebase', 400);
 
-  return user;
-};
+  // User already ache kina check (firebaseUid diye)
+  let user = await prisma.user.findUnique({ where: { firebaseUid: uid } });
 
-export const verifyEmailService = async (data: VerifyEmailInput) => {
-  const isValid = await verifyOtp(data.email, data.otp, 'verify_email');
-  if (!isValid) throw new AppError('Invalid or expired OTP', 400);
+  if (!user) {
+    // Email diye check (already registered thakle link kore dao)
+    user = await prisma.user.findUnique({ where: { email } });
 
-  await prisma.user.update({
-    where: { email: data.email },
-    data: { isEmailVerified: true },
-  });
+    if (user) {
+      // Existing user e firebaseUid link kore dao
+      user = await prisma.user.update({
+        where: { email },
+        data: {
+          firebaseUid: uid,
+          provider,
+          isEmailVerified: true,
+          avatar: user.avatar ?? picture ?? null,
+        },
+      });
+    } else {
+      // Notun user create
+      user = await prisma.user.create({
+        data: {
+          firebaseUid: uid,
+          name: name ?? email.split('@')[0],
+          email,
+          avatar: picture ?? null,
+          provider,
+          isEmailVerified: true,
+          isActive: true,
+        },
+      });
+    }
+  }
 
-  return true;
-};
-
-export const resendOtpService = async (email: string) => {
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) throw new AppError('User not found', 404);
-  if (user.isEmailVerified) throw new AppError('Email already verified', 400);
-
-  const otp = generateOtp();
-  await saveOtp(email, otp, 'verify_email');
-  await sendEmail({
-    to: email,
-    subject: 'Verify your Marketify account',
-    html: verifyEmailTemplate(user.name, otp),
-  });
-
-  return true;
-};
-
-export const loginService = async (data: LoginInput) => {
-  const user = await prisma.user.findUnique({ where: { email: data.email } });
-  if (!user || !user.password) throw new AppError('Invalid email or password', 401);
   if (user.isBanned) throw new AppError('Your account has been banned', 403);
-  if (!user.isEmailVerified) throw new AppError('Please verify your email first', 401);
-
-  const isMatch = await bcrypt.compare(data.password, user.password);
-  if (!isMatch) throw new AppError('Invalid email or password', 401);
+  if (!user.isActive) throw new AppError('Your account is not active', 403);
 
   const accessToken = generateAccessToken(user.id, user.role);
   const refreshToken = generateRefreshToken(user.id);
 
-  // save refresh token in redis
   await redis.set(`refresh:${user.id}`, refreshToken, 'EX', REFRESH_TOKEN_EXPIRY);
 
   return {
@@ -93,10 +80,24 @@ export const loginService = async (data: LoginInput) => {
       email: user.email,
       role: user.role,
       avatar: user.avatar,
+      provider: user.provider,
     },
     accessToken,
     refreshToken,
   };
+};
+
+// Email/password - shudhu OTP verify korbe (Firebase already register korche)
+export const verifyEmailService = async (email: string, otp: string) => {
+  const isValid = await verifyOtp(email, otp, 'verify_email');
+  if (!isValid) throw new AppError('Invalid or expired OTP', 400);
+
+  await prisma.user.update({
+    where: { email },
+    data: { isEmailVerified: true },
+  });
+
+  return true;
 };
 
 export const refreshTokenService = async (token: string) => {
@@ -135,6 +136,7 @@ export const logoutService = async (userId: string) => {
 export const forgotPasswordService = async (data: ForgotPasswordInput) => {
   const user = await prisma.user.findUnique({ where: { email: data.email } });
   if (!user) throw new AppError('No account found with this email', 404);
+  if (user.provider !== 'EMAIL') throw new AppError('Social login account. Password reset not applicable.', 400);
 
   const otp = generateOtp();
   await saveOtp(data.email, otp, 'reset_password');
@@ -151,58 +153,13 @@ export const resetPasswordService = async (data: ResetPasswordInput) => {
   const isValid = await verifyOtp(data.email, data.otp, 'reset_password');
   if (!isValid) throw new AppError('Invalid or expired OTP', 400);
 
-  const hashedPassword = await bcrypt.hash(data.newPassword, 12);
+  // Firebase e password update
+  const user = await prisma.user.findUnique({ where: { email: data.email } });
+  if (!user?.firebaseUid) throw new AppError('User not found', 404);
 
-  await prisma.user.update({
-    where: { email: data.email },
-    data: { password: hashedPassword },
+  await admin.auth().updateUser(user.firebaseUid, {
+    password: data.newPassword,
   });
 
   return true;
-};
-
-export const socialLoginService = async (data: {
-  name: string;
-  email: string;
-  avatar?: string;
-  provider: 'GOOGLE' | 'FACEBOOK';
-}) => {
-  let user = await prisma.user.findUnique({ where: { email: data.email } });
-
-  if (!user) {
-    user = await prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        avatar: data.avatar,
-        provider: data.provider === 'GOOGLE' ? 'GOOGLE' : 'EMAIL',
-        isEmailVerified: true,
-        isActive: true,
-      },
-    });
-  }
-
-  if (user.isBanned) throw new AppError('Your account has been banned', 403);
-
-  const accessToken = generateAccessToken(user.id, user.role);
-  const refreshToken = generateRefreshToken(user.id);
-
-  await redis.set(
-    `refresh:${user.id}`,
-    refreshToken,
-    'EX',
-    7 * 24 * 60 * 60
-  );
-
-  return {
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      avatar: user.avatar,
-    },
-    accessToken,
-    refreshToken,
-  };
 };

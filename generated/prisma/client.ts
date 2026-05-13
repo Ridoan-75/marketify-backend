@@ -65,11 +65,6 @@ export type Address = Prisma.AddressModel
  */
 export type Seller = Prisma.SellerModel
 /**
- * Model Withdrawal
- * 
- */
-export type Withdrawal = Prisma.WithdrawalModel
-/**
  * Model Category
  * 
  */
@@ -115,11 +110,6 @@ export type Cart = Prisma.CartModel
  */
 export type CartItem = Prisma.CartItemModel
 /**
- * Model Coupon
- * 
- */
-export type Coupon = Prisma.CouponModel
-/**
  * Model Order
  * 
  */
@@ -129,16 +119,6 @@ export type Order = Prisma.OrderModel
  * 
  */
 export type OrderItem = Prisma.OrderItemModel
-/**
- * Model OrderCoupon
- * 
- */
-export type OrderCoupon = Prisma.OrderCouponModel
-/**
- * Model Delivery
- * 
- */
-export type Delivery = Prisma.DeliveryModel
 /**
  * Model Payment
  * 
@@ -155,30 +135,10 @@ export type Review = Prisma.ReviewModel
  */
 export type Wishlist = Prisma.WishlistModel
 /**
- * Model Conversation
- * 
- */
-export type Conversation = Prisma.ConversationModel
-/**
- * Model ConversationParticipant
- * 
- */
-export type ConversationParticipant = Prisma.ConversationParticipantModel
-/**
- * Model Message
- * 
- */
-export type Message = Prisma.MessageModel
-/**
  * Model Notification
  * 
  */
 export type Notification = Prisma.NotificationModel
-/**
- * Model Banner
- * 
- */
-export type Banner = Prisma.BannerModel
 /**
  * Model Dispute
  * 

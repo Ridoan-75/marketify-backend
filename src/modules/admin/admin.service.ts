@@ -267,56 +267,6 @@ export const updateProductStatusAdminService = async (
   });
 };
 
-export const getPendingWithdrawalsService = async (page = 1, limit = 20) => {
-  const { skip, take } = paginate({ page, limit });
-
-  const [withdrawals, total] = await Promise.all([
-    prisma.withdrawal.findMany({
-      where: { status: "PENDING" },
-      skip,
-      take,
-      orderBy: { createdAt: "desc" },
-      include: {
-        seller: {
-          select: { shopName: true, user: { select: { email: true } } },
-        },
-      },
-    }),
-    prisma.withdrawal.count({ where: { status: "PENDING" } }),
-  ]);
-
-  return { withdrawals, meta: paginateMeta(total, page, limit) };
-};
-
-export const processWithdrawalService = async (
-  withdrawalId: string,
-  status: "APPROVED" | "REJECTED",
-  note?: string,
-) => {
-  const withdrawal = await prisma.withdrawal.findUnique({
-    where: { id: withdrawalId },
-    include: { seller: true },
-  });
-  if (!withdrawal) throw new AppError("Withdrawal not found", 404);
-  if (withdrawal.status !== "PENDING")
-    throw new AppError("Withdrawal already processed", 400);
-
-  return prisma.$transaction(async (tx) => {
-    const updated = await tx.withdrawal.update({
-      where: { id: withdrawalId },
-      data: { status, note },
-    });
-
-    if (status === "APPROVED") {
-      await tx.seller.update({
-        where: { id: withdrawal.sellerId },
-        data: { balance: { decrement: withdrawal.amount } },
-      });
-    }
-
-    return updated;
-  });
-};
 
 export const confirmCODPaymentService = async (orderId: string) => {
   const payment = await prisma.payment.findUnique({ where: { orderId } });

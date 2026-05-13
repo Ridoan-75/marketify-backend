@@ -14,8 +14,7 @@ import {
   getAllOrdersService,
   getAllProductsAdminService,
   updateProductStatusAdminService,
-  getPendingWithdrawalsService,
-  processWithdrawalService,
+  confirmCODPaymentService,
 } from "./admin.service";
 
 export const getAdminDashboard = asyncHandler(
@@ -148,27 +147,9 @@ export const updateProductStatusAdmin = asyncHandler(
   },
 );
 
-export const getPendingWithdrawals = asyncHandler(
+export const confirmCODPayment = asyncHandler(
   async (req: Request, res: Response) => {
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 20;
-    const result = await getPendingWithdrawalsService(page, limit);
-    sendResponse({
-      res,
-      message: "Withdrawals fetched.",
-      data: result.withdrawals,
-      meta: result.meta,
-    });
-  },
-);
-
-export const processWithdrawal = asyncHandler(
-  async (req: Request, res: Response) => {
-    const withdrawal = await processWithdrawalService(
-      req.params.withdrawalId as string,
-      req.body.status,
-      req.body.note,
-    );
-    sendResponse({ res, message: "Withdrawal processed.", data: withdrawal });
+    await confirmCODPaymentService(req.params.orderId as string);
+    sendResponse({ res, message: "COD payment confirmed successfully." });
   },
 );

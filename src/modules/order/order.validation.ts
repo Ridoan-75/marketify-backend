@@ -3,9 +3,8 @@ import { z } from "zod";
 export const placeOrderSchema = z.object({
   body: z.object({
     addressId: z.string().min(1, "Address is required"),
-    couponCode: z.string().optional(),
     note: z.string().optional(),
-    paymentMethod: z.enum(["STRIPE", "SSLCOMMERZ", "BKASH", "NAGAD", "COD"]),
+    paymentMethod: z.enum(["STRIPE", "COD"]),
   }),
 });
 

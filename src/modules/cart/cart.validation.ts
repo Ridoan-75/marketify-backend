@@ -14,11 +14,5 @@ export const updateCartItemSchema = z.object({
   }),
 });
 
-export const applyCouponSchema = z.object({
-  body: z.object({
-    code: z.string().min(1, "Coupon code is required"),
-  }),
-});
-
 export type AddToCartInput = z.infer<typeof addToCartSchema>["body"];
 export type UpdateCartItemInput = z.infer<typeof updateCartItemSchema>["body"];

@@ -12,12 +12,10 @@ import {
   getAllOrders,
   getAllProductsAdmin,
   updateProductStatusAdmin,
-  getPendingWithdrawals,
-  processWithdrawal,
+  confirmCODPayment,
 } from "./admin.controller";
 import { authenticate } from "../../middlewares/auth.middleware";
 import { authorize } from "../../middlewares/role.middleware";
-import { confirmCODPaymentService } from "./admin.service";
 
 const adminRouter = Router();
 
@@ -36,12 +34,9 @@ adminRouter.patch("/sellers/:sellerId/reject", rejectSeller);
 adminRouter.patch("/sellers/:sellerId/suspend", suspendSeller);
 
 adminRouter.get("/orders", getAllOrders);
-adminRouter.patch('/orders/:orderId/confirm-cod', confirmCODPaymentService);
+adminRouter.patch('/orders/:orderId/confirm-cod', confirmCODPayment);
 
 adminRouter.get("/products", getAllProductsAdmin);
 adminRouter.patch("/products/:productId/status", updateProductStatusAdmin);
-
-adminRouter.get("/withdrawals/pending", getPendingWithdrawals);
-adminRouter.patch("/withdrawals/:withdrawalId/process", processWithdrawal);
 
 export { adminRouter };

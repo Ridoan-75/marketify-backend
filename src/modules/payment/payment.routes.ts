@@ -2,9 +2,7 @@ import { Router } from "express";
 import express from "express";
 import {
   initiatePayment,
-  bkashCallback,
   stripeWebhook,
-  sslcommerzIPN,
   getPaymentStatus,
   requestRefund,
 } from "./payment.controller";
@@ -18,12 +16,6 @@ paymentRouter.post(
   express.raw({ type: "application/json" }),
   stripeWebhook,
 );
-
-// sslcommerz IPN
-paymentRouter.post("/sslcommerz/ipn", sslcommerzIPN);
-
-// bkash callback (redirect from bkash)
-paymentRouter.get("/bkash/callback", bkashCallback);
 
 // authenticated routes
 paymentRouter.post("/initiate", authenticate, initiatePayment);

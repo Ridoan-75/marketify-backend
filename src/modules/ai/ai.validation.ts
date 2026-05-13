@@ -26,12 +26,6 @@ export const smartSearchSchema = z.object({
   }),
 });
 
-export const smartReplySchema = z.object({
-  params: z.object({
-    conversationId: z.string().min(1),
-  }),
-});
-
 export const chatbotSchema = z.object({
   body: z.object({
     message: z.string().min(1),

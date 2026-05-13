@@ -18,6 +18,7 @@ enum Role {
 enum AuthProvider {
   EMAIL
   GOOGLE
+  FACEBOOK
 }
 
 enum SellerStatus {
@@ -56,62 +57,14 @@ enum PaymentStatus {
 
 enum PaymentMethod {
   STRIPE
-  SSLCOMMERZ
-  BKASH
-  NAGAD
   COD
-}
-
-enum DeliveryStatus {
-  NOT_INITIATED
-  PICKUP_PENDING
-  PICKED_UP
-  IN_TRANSIT
-  OUT_FOR_DELIVERY
-  DELIVERED
-  FAILED
-  RETURNED
-}
-
-enum DeliveryProvider {
-  PATHAO
-  STEADFAST
-  MANUAL
-}
-
-enum BannerPosition {
-  HERO
-  MIDDLE
-  SIDEBAR
-  FOOTER
 }
 
 enum NotificationType {
   ORDER
   PAYMENT
-  CHAT
   REVIEW
   SYSTEM
-  PROMOTION
-}
-
-enum CouponType {
-  PERCENTAGE
-  FIXED
-}
-
-enum WithdrawalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  COMPLETED
-}
-
-enum MessageType {
-  TEXT
-  IMAGE
-  FILE
-  PRODUCT_LINK
 }
 
 enum DisputeStatus {
@@ -132,6 +85,7 @@ enum ReturnStatus {
 
 model User {
   id              String       @id @default(cuid())
+  firebaseUid     String?      @unique
   name            String
   email           String       @unique
   password        String?
@@ -152,8 +106,6 @@ model User {
   reviews       Review[]
   wishlist      Wishlist[]
   cart          Cart?
-  sentMessages  Message[]                 @relation("SentMessages")
-  conversations ConversationParticipant[]
   notifications Notification[]
   emailTokens   EmailToken[]
   sessions      Session[]
@@ -191,7 +143,7 @@ model EmailToken {
 model Address {
   id           String   @id @default(cuid())
   userId       String
-  label        String? // "Home", "Office"
+  label        String?
   fullName     String
   phone        String
   addressLine1 String
@@ -232,29 +184,11 @@ model Seller {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products    Product[]
-  orderItems  OrderItem[]
-  withdrawals Withdrawal[]
-  coupons     Coupon[]
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products   Product[]
+  orderItems OrderItem[]
 
   @@map("sellers")
-}
-
-model Withdrawal {
-  id        String           @id @default(cuid())
-  sellerId  String
-  amount    Float
-  method    String // "bkash" | "bank" | "nagad"
-  accountNo String
-  status    WithdrawalStatus @default(PENDING)
-  note      String?
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-
-  seller Seller @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-
-  @@map("withdrawals")
 }
 
 // CATEGORY
@@ -300,7 +234,6 @@ model Product {
   reviewCount    Int           @default(0)
   totalSold      Int           @default(0)
 
-  // AI generated fields
   aiDescription  String?
   aiTags         String[]
   aiPriceSuggest Float?
@@ -337,7 +270,7 @@ model ProductImage {
 model ProductAttribute {
   id        String @id @default(cuid())
   productId String
-  name      String // "Color", "Size", "RAM"
+  name      String
 
   product Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   values  AttributeValue[]
@@ -348,7 +281,7 @@ model ProductAttribute {
 model AttributeValue {
   id          String @id @default(cuid())
   attributeId String
-  value       String // "Red", "XL", "8GB"
+  value       String
 
   attribute           ProductAttribute        @relation(fields: [attributeId], references: [id], onDelete: Cascade)
   variantCombinations VariantAttributeValue[]
@@ -415,29 +348,6 @@ model CartItem {
   @@map("cart_items")
 }
 
-// COUPON
-
-model Coupon {
-  id             String     @id @default(cuid())
-  sellerId       String? // null = admin global coupon
-  code           String     @unique
-  type           CouponType
-  value          Float
-  minOrderAmount Float?
-  maxDiscount    Float?
-  usageLimit     Int?
-  usedCount      Int        @default(0)
-  isActive       Boolean    @default(true)
-  startsAt       DateTime?
-  expiresAt      DateTime?
-  createdAt      DateTime   @default(now())
-
-  seller       Seller?       @relation(fields: [sellerId], references: [id])
-  orderCoupons OrderCoupon[]
-
-  @@map("coupons")
-}
-
 // ORDER
 
 model Order {
@@ -457,7 +367,6 @@ model Order {
   address       Address        @relation(fields: [addressId], references: [id])
   items         OrderItem[]
   payment       Payment?
-  coupons       OrderCoupon[]
   dispute       Dispute?
   returnRequest ReturnRequest?
 
@@ -475,45 +384,12 @@ model OrderItem {
   totalPrice Float
   status     OrderStatus @default(PENDING)
 
-  order    Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product  Product         @relation(fields: [productId], references: [id])
-  variant  ProductVariant? @relation(fields: [variantId], references: [id])
-  seller   Seller          @relation(fields: [sellerId], references: [id])
-  delivery Delivery?
+  order   Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id])
+  seller  Seller          @relation(fields: [sellerId], references: [id])
 
   @@map("order_items")
-}
-
-model OrderCoupon {
-  id             String @id @default(cuid())
-  orderId        String
-  couponId       String
-  discountAmount Float
-
-  order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  coupon Coupon @relation(fields: [couponId], references: [id])
-
-  @@map("order_coupons")
-}
-
-// DELIVERY (Pathao / Steadfast)
-
-model Delivery {
-  id               String           @id @default(cuid())
-  orderItemId      String           @unique
-  provider         DeliveryProvider @default(PATHAO)
-  trackingId       String?
-  trackingUrl      String?
-  status           DeliveryStatus   @default(NOT_INITIATED)
-  estimatedDate    DateTime?
-  deliveredAt      DateTime?
-  providerResponse Json?
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-
-  orderItem OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
-
-  @@map("deliveries")
 }
 
 // PAYMENT
@@ -544,12 +420,12 @@ model Review {
   id         String   @id @default(cuid())
   productId  String
   userId     String
-  rating     Int // 1-5
+  rating     Int
   comment    String?
   images     String[]
   isVerified Boolean  @default(false)
   isHidden   Boolean  @default(false)
-  sentiment  String? // "positive" | "negative" | "neutral"
+  sentiment  String?
   aiFlag     Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -576,51 +452,6 @@ model Wishlist {
   @@map("wishlists")
 }
 
-// CHAT / INBOX
-
-model Conversation {
-  id        String   @id @default(cuid())
-  productId String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  participants ConversationParticipant[]
-  messages     Message[]
-
-  @@map("conversations")
-}
-
-model ConversationParticipant {
-  conversationId String
-  userId         String
-  joinedAt       DateTime  @default(now())
-  lastReadAt     DateTime?
-
-  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([conversationId, userId])
-  @@map("conversation_participants")
-}
-
-model Message {
-  id             String      @id @default(cuid())
-  conversationId String
-  senderId       String
-  type           MessageType @default(TEXT)
-  content        String
-  fileUrl        String?
-  isRead         Boolean     @default(false)
-  isAiReply      Boolean     @default(false)
-  isDeleted      Boolean     @default(false)
-  createdAt      DateTime    @default(now())
-
-  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender       User         @relation("SentMessages", fields: [senderId], references: [id])
-
-  @@map("messages")
-}
-
 // NOTIFICATION
 
 model Notification {
@@ -636,26 +467,6 @@ model Notification {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("notifications")
-}
-
-// BANNER (Admin Controlled — Dynamic)
-
-model Banner {
-  id          String         @id @default(cuid())
-  title       String
-  subtitle    String?
-  imageUrl    String
-  mobileImage String?
-  link        String?
-  position    BannerPosition @default(HERO)
-  sortOrder   Int            @default(0)
-  isActive    Boolean        @default(true)
-  startsAt    DateTime?
-  endsAt      DateTime?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-
-  @@map("banners")
 }
 
 // DISPUTE
@@ -701,7 +512,7 @@ model ReturnRequest {
 model AiLog {
   id        String   @id @default(cuid())
   userId    String?
-  feature   String // "description_gen" | "smart_reply" | "sentiment" | "search"
+  feature   String
   input     String
   output    String
   tokens    Int?

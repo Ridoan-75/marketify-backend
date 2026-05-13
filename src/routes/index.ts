@@ -5,16 +5,12 @@ import { sellerRouter } from '../modules/seller/seller.routes';
 import { categoryRouter } from '../modules/category/category.routes';
 import { productRouter } from '../modules/product/product.routes';
 import { cartRouter } from '../modules/cart/cart.routes';
-import { couponRouter } from '../modules/coupon/coupon.routes';
 import { orderRouter } from '../modules/order/order.routes';
 import { reviewRouter } from '../modules/review/review.routes';
 import { wishlistRouter } from '../modules/wishlist/wishlist.routes';
-import { bannerRouter } from '../modules/banner/banner.routes';
 import { adminRouter } from '../modules/admin/admin.routes';
 import { notificationRouter } from '../modules/notification/notification.routes';
-import { chatRouter } from '../modules/chat/chat.routes';
 import { paymentRouter } from '../modules/payment/payment.routes';
-import { deliveryRouter } from '../modules/delivery/delivery.routes';
 import { aiRouter } from '../modules/ai/ai.routes';
 
 const router = Router();
@@ -25,16 +21,12 @@ router.use('/seller', sellerRouter);
 router.use('/categories', categoryRouter);
 router.use('/products', productRouter);
 router.use('/cart', cartRouter);
-router.use('/coupons', couponRouter);
 router.use('/orders', orderRouter);
 router.use('/reviews', reviewRouter);
 router.use('/wishlist', wishlistRouter);
-router.use('/banners', bannerRouter);
 router.use('/admin', adminRouter);
 router.use('/notifications', notificationRouter);
-router.use('/chat', chatRouter);
 router.use('/payment', paymentRouter);
-router.use('/delivery', deliveryRouter);
 router.use('/ai', aiRouter);
 
 

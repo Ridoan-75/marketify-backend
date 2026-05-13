@@ -9,6 +9,7 @@ import {
   deleteReviewService,
   toggleReviewVisibilityService,
   getMyReviewsService,
+  getAllReviewsService,
 } from './review.service';
 
 export const createReview = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -53,4 +54,9 @@ export const toggleReviewVisibility = asyncHandler(async (req: AuthRequest, res:
 export const getMyReviews = asyncHandler(async (req: AuthRequest, res: Response) => {
   const reviews = await getMyReviewsService(req.user!.id);
   sendResponse({ res, message: 'Reviews fetched successfully.', data: reviews });
+});
+
+export const getAllReviews = asyncHandler(async (req: Request, res: Response) => {
+  const reviews = await getAllReviewsService();
+  sendResponse({ res, message: 'Reviews fetched.', data: reviews });
 });

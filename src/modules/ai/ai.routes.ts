@@ -4,7 +4,6 @@ import {
   pricingSuggestion,
   analyzeReview,
   smartSearch,
-  smartReply,
   chatbot,
   getRecommendations,
 } from "./ai.controller";
@@ -43,8 +42,6 @@ aiRouter.post(
   validate(pricingSuggestionSchema),
   pricingSuggestion,
 );
-
-aiRouter.get("/smart-reply/:conversationId", authorize("SELLER"), smartReply);
 
 // admin only
 aiRouter.post("/review/:reviewId/analyze", authorize("ADMIN"), analyzeReview);

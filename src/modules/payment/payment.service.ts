@@ -4,11 +4,6 @@ import {
   createStripePaymentIntent,
   createStripeRefund,
 } from "./providers/stripe.provider";
-import { initSSLCommerzPayment } from "./providers/sslcommerz.provider";
-import {
-  createBkashPayment,
-  executeBkashPayment,
-} from "./providers/bkash.provider";
 
 export const initiatePaymentService = async (
   orderId: string,
@@ -18,22 +13,11 @@ export const initiatePaymentService = async (
   switch (method) {
     case "STRIPE":
       return createStripePaymentIntent(orderId, userId);
-    case "SSLCOMMERZ":
-      return initSSLCommerzPayment(orderId, userId);
-    case "BKASH":
-      return createBkashPayment(orderId, userId);
     case "COD":
       return handleCODPayment(orderId, userId);
     default:
-      throw new AppError("Unsupported payment method", 400);
+      throw new AppError("Unsupported payment method. Use STRIPE or COD.", 400);
   }
-};
-
-export const executeBkashPaymentService = async (
-  paymentID: string,
-  orderId: string,
-) => {
-  return executeBkashPayment(paymentID, orderId);
 };
 
 export const getPaymentStatusService = async (
@@ -78,7 +62,7 @@ export const requestRefundService = async (orderId: string, userId: string) => {
     return createStripeRefund(orderId);
   }
 
-  // for other methods, mark as refund requested for manual processing
+  // COD — manual refund
   await prisma.payment.update({
     where: { orderId },
     data: {
@@ -93,7 +77,7 @@ export const requestRefundService = async (orderId: string, userId: string) => {
     data: { status: "REFUNDED" },
   });
 
-  return { message: "Refund requested successfully." };
+  return { message: "Refund processed successfully." };
 };
 
 const handleCODPayment = async (orderId: string, userId: string) => {
@@ -106,7 +90,6 @@ const handleCODPayment = async (orderId: string, userId: string) => {
   if (order.payment?.status === "PAID")
     throw new AppError("Order already paid", 400);
 
-  // COD তে payment confirmed হবে delivery এর সময়
   await prisma.payment.update({
     where: { orderId },
     data: {

@@ -160,3 +160,14 @@ export const getMyReviewsService = async (userId: string) => {
     },
   });
 };
+
+
+export const getAllReviewsService = async () => {
+  return prisma.review.findMany({
+    orderBy: { createdAt: 'desc' },
+    include: {
+      user: { select: { name: true } },
+      product: { select: { name: true, slug: true } },
+    },
+  });
+};

@@ -45,37 +45,7 @@ export const placeOrderService = async (
       throw new AppError(`Insufficient stock for ${item.product.name}`, 400);
   }
 
-  // apply coupon
-  let discountAmount = 0;
-  let couponId: string | null = null;
-
-  if (data.couponCode) {
-    const coupon = await prisma.coupon.findUnique({
-      where: { code: data.couponCode },
-    });
-
-    if (coupon && coupon.isActive) {
-      const now = new Date();
-      const isValid =
-        (!coupon.startsAt || coupon.startsAt <= now) &&
-        (!coupon.expiresAt || coupon.expiresAt >= now) &&
-        (!coupon.usageLimit || coupon.usedCount < coupon.usageLimit) &&
-        (!coupon.minOrderAmount || subtotal >= coupon.minOrderAmount);
-
-      if (isValid) {
-        discountAmount =
-          coupon.type === "PERCENTAGE"
-            ? (subtotal * coupon.value) / 100
-            : coupon.value;
-
-        if (coupon.maxDiscount && discountAmount > coupon.maxDiscount) {
-          discountAmount = coupon.maxDiscount;
-        }
-        couponId = coupon.id;
-      }
-    }
-  }
-
+  const discountAmount = 0;
   const shippingCost = cart.items.some((i) => i.product.isFreeShipping)
     ? 0
     : 60;
@@ -112,7 +82,7 @@ export const placeOrderService = async (
           create: {
             method: data.paymentMethod,
             amount: total,
-            status: data.paymentMethod === "COD" ? "PENDING" : "PENDING",
+            status: "PENDING",
           },
         },
       },
@@ -121,17 +91,6 @@ export const placeOrderService = async (
         payment: true,
       },
     });
-
-    // coupon usage increment
-    if (couponId) {
-      await tx.orderCoupon.create({
-        data: { orderId: newOrder.id, couponId, discountAmount },
-      });
-      await tx.coupon.update({
-        where: { id: couponId },
-        data: { usedCount: { increment: 1 } },
-      });
-    }
 
     // deduct stock
     for (const item of cart.items) {
@@ -214,12 +173,10 @@ export const getOrderByIdService = async (userId: string, orderId: string) => {
           },
           variant: true,
           seller: { select: { shopName: true, shopSlug: true } },
-          delivery: true,
         },
       },
       address: true,
       payment: true,
-      coupons: { include: { coupon: true } },
     },
   });
 
@@ -267,7 +224,6 @@ export const getSellerOrdersService = async (
           },
         },
         variant: { select: { price: true, image: true } },
-        delivery: true,
       },
     }),
     prisma.orderItem.count({ where }),

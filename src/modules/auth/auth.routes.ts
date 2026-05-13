@@ -1,45 +1,27 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
-  register,
-  verifyEmail,
-  resendOtp,
-  login,
+  firebaseLogin,
   refreshToken,
   logout,
   forgotPassword,
   resetPassword,
-  socialLogin,
-} from "./auth.controller";
-import { validate } from "../../middlewares/validate.middleware";
-import { authenticate } from "../../middlewares/auth.middleware";
+} from './auth.controller';
+import { validate } from '../../middlewares/validate.middleware';
+import { authenticate } from '../../middlewares/auth.middleware';
 import {
-  registerSchema,
-  verifyEmailSchema,
-  resendOtpSchema,
-  loginSchema,
+  firebaseLoginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
-} from "./auth.validation";
+} from './auth.validation';
 
 const authRouter = Router();
 
-authRouter.post("/register", validate(registerSchema), register);
-authRouter.post("/verify-email", validate(verifyEmailSchema), verifyEmail);
-authRouter.post("/resend-otp", validate(resendOtpSchema), resendOtp);
-authRouter.post("/login", validate(loginSchema), login);
-authRouter.post("/refresh-token", refreshToken);
-authRouter.post("/logout", authenticate, logout);
-authRouter.post(
-  "/forgot-password",
-  validate(forgotPasswordSchema),
-  forgotPassword,
-);
-authRouter.post(
-  "/reset-password",
-  validate(resetPasswordSchema),
-  resetPassword,
-);
+// Single endpoint - Firebase token pathabo, backend verify korbe
+authRouter.post('/login', validate(firebaseLoginSchema), firebaseLogin);
 
-authRouter.post('/social', socialLogin);
+authRouter.post('/refresh-token', refreshToken);
+authRouter.post('/logout', authenticate, logout);
+authRouter.post('/forgot-password', validate(forgotPasswordSchema), forgotPassword);
+authRouter.post('/reset-password', validate(resetPasswordSchema), resetPassword);
 
 export { authRouter };

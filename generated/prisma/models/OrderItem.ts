@@ -260,7 +260,6 @@ export type OrderItemWhereInput = {
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   variant?: Prisma.XOR<Prisma.ProductVariantNullableScalarRelationFilter, Prisma.ProductVariantWhereInput> | null
   seller?: Prisma.XOR<Prisma.SellerScalarRelationFilter, Prisma.SellerWhereInput>
-  delivery?: Prisma.XOR<Prisma.DeliveryNullableScalarRelationFilter, Prisma.DeliveryWhereInput> | null
 }
 
 export type OrderItemOrderByWithRelationInput = {
@@ -277,7 +276,6 @@ export type OrderItemOrderByWithRelationInput = {
   product?: Prisma.ProductOrderByWithRelationInput
   variant?: Prisma.ProductVariantOrderByWithRelationInput
   seller?: Prisma.SellerOrderByWithRelationInput
-  delivery?: Prisma.DeliveryOrderByWithRelationInput
 }
 
 export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
@@ -297,7 +295,6 @@ export type OrderItemWhereUniqueInput = Prisma.AtLeast<{
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   variant?: Prisma.XOR<Prisma.ProductVariantNullableScalarRelationFilter, Prisma.ProductVariantWhereInput> | null
   seller?: Prisma.XOR<Prisma.SellerScalarRelationFilter, Prisma.SellerWhereInput>
-  delivery?: Prisma.XOR<Prisma.DeliveryNullableScalarRelationFilter, Prisma.DeliveryWhereInput> | null
 }, "id">
 
 export type OrderItemOrderByWithAggregationInput = {
@@ -342,7 +339,6 @@ export type OrderItemCreateInput = {
   product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
   variant?: Prisma.ProductVariantCreateNestedOneWithoutOrderItemsInput
   seller: Prisma.SellerCreateNestedOneWithoutOrderItemsInput
-  delivery?: Prisma.DeliveryCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUncheckedCreateInput = {
@@ -355,7 +351,6 @@ export type OrderItemUncheckedCreateInput = {
   unitPrice: number
   totalPrice: number
   status?: $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUpdateInput = {
@@ -368,7 +363,6 @@ export type OrderItemUpdateInput = {
   product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
   variant?: Prisma.ProductVariantUpdateOneWithoutOrderItemsNestedInput
   seller?: Prisma.SellerUpdateOneRequiredWithoutOrderItemsNestedInput
-  delivery?: Prisma.DeliveryUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateInput = {
@@ -381,7 +375,6 @@ export type OrderItemUncheckedUpdateInput = {
   unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemCreateManyInput = {
@@ -472,11 +465,6 @@ export type OrderItemSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
-}
-
-export type OrderItemScalarRelationFilter = {
-  is?: Prisma.OrderItemWhereInput
-  isNot?: Prisma.OrderItemWhereInput
 }
 
 export type OrderItemCreateNestedManyWithoutSellerInput = {
@@ -647,20 +635,6 @@ export type OrderItemUncheckedUpdateManyWithoutOrderNestedInput = {
   deleteMany?: Prisma.OrderItemScalarWhereInput | Prisma.OrderItemScalarWhereInput[]
 }
 
-export type OrderItemCreateNestedOneWithoutDeliveryInput = {
-  create?: Prisma.XOR<Prisma.OrderItemCreateWithoutDeliveryInput, Prisma.OrderItemUncheckedCreateWithoutDeliveryInput>
-  connectOrCreate?: Prisma.OrderItemCreateOrConnectWithoutDeliveryInput
-  connect?: Prisma.OrderItemWhereUniqueInput
-}
-
-export type OrderItemUpdateOneRequiredWithoutDeliveryNestedInput = {
-  create?: Prisma.XOR<Prisma.OrderItemCreateWithoutDeliveryInput, Prisma.OrderItemUncheckedCreateWithoutDeliveryInput>
-  connectOrCreate?: Prisma.OrderItemCreateOrConnectWithoutDeliveryInput
-  upsert?: Prisma.OrderItemUpsertWithoutDeliveryInput
-  connect?: Prisma.OrderItemWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.OrderItemUpdateToOneWithWhereWithoutDeliveryInput, Prisma.OrderItemUpdateWithoutDeliveryInput>, Prisma.OrderItemUncheckedUpdateWithoutDeliveryInput>
-}
-
 export type OrderItemCreateWithoutSellerInput = {
   id?: string
   quantity: number
@@ -670,7 +644,6 @@ export type OrderItemCreateWithoutSellerInput = {
   order: Prisma.OrderCreateNestedOneWithoutItemsInput
   product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
   variant?: Prisma.ProductVariantCreateNestedOneWithoutOrderItemsInput
-  delivery?: Prisma.DeliveryCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUncheckedCreateWithoutSellerInput = {
@@ -682,7 +655,6 @@ export type OrderItemUncheckedCreateWithoutSellerInput = {
   unitPrice: number
   totalPrice: number
   status?: $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemCreateOrConnectWithoutSellerInput = {
@@ -735,7 +707,6 @@ export type OrderItemCreateWithoutProductInput = {
   order: Prisma.OrderCreateNestedOneWithoutItemsInput
   variant?: Prisma.ProductVariantCreateNestedOneWithoutOrderItemsInput
   seller: Prisma.SellerCreateNestedOneWithoutOrderItemsInput
-  delivery?: Prisma.DeliveryCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUncheckedCreateWithoutProductInput = {
@@ -747,7 +718,6 @@ export type OrderItemUncheckedCreateWithoutProductInput = {
   unitPrice: number
   totalPrice: number
   status?: $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemCreateOrConnectWithoutProductInput = {
@@ -785,7 +755,6 @@ export type OrderItemCreateWithoutVariantInput = {
   order: Prisma.OrderCreateNestedOneWithoutItemsInput
   product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
   seller: Prisma.SellerCreateNestedOneWithoutOrderItemsInput
-  delivery?: Prisma.DeliveryCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUncheckedCreateWithoutVariantInput = {
@@ -797,7 +766,6 @@ export type OrderItemUncheckedCreateWithoutVariantInput = {
   unitPrice: number
   totalPrice: number
   status?: $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemCreateOrConnectWithoutVariantInput = {
@@ -835,7 +803,6 @@ export type OrderItemCreateWithoutOrderInput = {
   product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
   variant?: Prisma.ProductVariantCreateNestedOneWithoutOrderItemsInput
   seller: Prisma.SellerCreateNestedOneWithoutOrderItemsInput
-  delivery?: Prisma.DeliveryCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemUncheckedCreateWithoutOrderInput = {
@@ -847,7 +814,6 @@ export type OrderItemUncheckedCreateWithoutOrderInput = {
   unitPrice: number
   totalPrice: number
   status?: $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedCreateNestedOneWithoutOrderItemInput
 }
 
 export type OrderItemCreateOrConnectWithoutOrderInput = {
@@ -876,70 +842,6 @@ export type OrderItemUpdateManyWithWhereWithoutOrderInput = {
   data: Prisma.XOR<Prisma.OrderItemUpdateManyMutationInput, Prisma.OrderItemUncheckedUpdateManyWithoutOrderInput>
 }
 
-export type OrderItemCreateWithoutDeliveryInput = {
-  id?: string
-  quantity: number
-  unitPrice: number
-  totalPrice: number
-  status?: $Enums.OrderStatus
-  order: Prisma.OrderCreateNestedOneWithoutItemsInput
-  product: Prisma.ProductCreateNestedOneWithoutOrderItemsInput
-  variant?: Prisma.ProductVariantCreateNestedOneWithoutOrderItemsInput
-  seller: Prisma.SellerCreateNestedOneWithoutOrderItemsInput
-}
-
-export type OrderItemUncheckedCreateWithoutDeliveryInput = {
-  id?: string
-  orderId: string
-  productId: string
-  variantId?: string | null
-  sellerId: string
-  quantity: number
-  unitPrice: number
-  totalPrice: number
-  status?: $Enums.OrderStatus
-}
-
-export type OrderItemCreateOrConnectWithoutDeliveryInput = {
-  where: Prisma.OrderItemWhereUniqueInput
-  create: Prisma.XOR<Prisma.OrderItemCreateWithoutDeliveryInput, Prisma.OrderItemUncheckedCreateWithoutDeliveryInput>
-}
-
-export type OrderItemUpsertWithoutDeliveryInput = {
-  update: Prisma.XOR<Prisma.OrderItemUpdateWithoutDeliveryInput, Prisma.OrderItemUncheckedUpdateWithoutDeliveryInput>
-  create: Prisma.XOR<Prisma.OrderItemCreateWithoutDeliveryInput, Prisma.OrderItemUncheckedCreateWithoutDeliveryInput>
-  where?: Prisma.OrderItemWhereInput
-}
-
-export type OrderItemUpdateToOneWithWhereWithoutDeliveryInput = {
-  where?: Prisma.OrderItemWhereInput
-  data: Prisma.XOR<Prisma.OrderItemUpdateWithoutDeliveryInput, Prisma.OrderItemUncheckedUpdateWithoutDeliveryInput>
-}
-
-export type OrderItemUpdateWithoutDeliveryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
-  totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  order?: Prisma.OrderUpdateOneRequiredWithoutItemsNestedInput
-  product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
-  variant?: Prisma.ProductVariantUpdateOneWithoutOrderItemsNestedInput
-  seller?: Prisma.SellerUpdateOneRequiredWithoutOrderItemsNestedInput
-}
-
-export type OrderItemUncheckedUpdateWithoutDeliveryInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  orderId?: Prisma.StringFieldUpdateOperationsInput | string
-  productId?: Prisma.StringFieldUpdateOperationsInput | string
-  variantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
-  quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
-  totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-}
-
 export type OrderItemCreateManySellerInput = {
   id?: string
   orderId: string
@@ -960,7 +862,6 @@ export type OrderItemUpdateWithoutSellerInput = {
   order?: Prisma.OrderUpdateOneRequiredWithoutItemsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
   variant?: Prisma.ProductVariantUpdateOneWithoutOrderItemsNestedInput
-  delivery?: Prisma.DeliveryUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateWithoutSellerInput = {
@@ -972,7 +873,6 @@ export type OrderItemUncheckedUpdateWithoutSellerInput = {
   unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateManyWithoutSellerInput = {
@@ -1006,7 +906,6 @@ export type OrderItemUpdateWithoutProductInput = {
   order?: Prisma.OrderUpdateOneRequiredWithoutItemsNestedInput
   variant?: Prisma.ProductVariantUpdateOneWithoutOrderItemsNestedInput
   seller?: Prisma.SellerUpdateOneRequiredWithoutOrderItemsNestedInput
-  delivery?: Prisma.DeliveryUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateWithoutProductInput = {
@@ -1018,7 +917,6 @@ export type OrderItemUncheckedUpdateWithoutProductInput = {
   unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateManyWithoutProductInput = {
@@ -1052,7 +950,6 @@ export type OrderItemUpdateWithoutVariantInput = {
   order?: Prisma.OrderUpdateOneRequiredWithoutItemsNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
   seller?: Prisma.SellerUpdateOneRequiredWithoutOrderItemsNestedInput
-  delivery?: Prisma.DeliveryUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateWithoutVariantInput = {
@@ -1064,7 +961,6 @@ export type OrderItemUncheckedUpdateWithoutVariantInput = {
   unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateManyWithoutVariantInput = {
@@ -1098,7 +994,6 @@ export type OrderItemUpdateWithoutOrderInput = {
   product?: Prisma.ProductUpdateOneRequiredWithoutOrderItemsNestedInput
   variant?: Prisma.ProductVariantUpdateOneWithoutOrderItemsNestedInput
   seller?: Prisma.SellerUpdateOneRequiredWithoutOrderItemsNestedInput
-  delivery?: Prisma.DeliveryUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateWithoutOrderInput = {
@@ -1110,7 +1005,6 @@ export type OrderItemUncheckedUpdateWithoutOrderInput = {
   unitPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-  delivery?: Prisma.DeliveryUncheckedUpdateOneWithoutOrderItemNestedInput
 }
 
 export type OrderItemUncheckedUpdateManyWithoutOrderInput = {
@@ -1140,7 +1034,6 @@ export type OrderItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.OrderItem$variantArgs<ExtArgs>
   seller?: boolean | Prisma.SellerDefaultArgs<ExtArgs>
-  delivery?: boolean | Prisma.OrderItem$deliveryArgs<ExtArgs>
 }, ExtArgs["result"]["orderItem"]>
 
 export type OrderItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1193,7 +1086,6 @@ export type OrderItemInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   variant?: boolean | Prisma.OrderItem$variantArgs<ExtArgs>
   seller?: boolean | Prisma.SellerDefaultArgs<ExtArgs>
-  delivery?: boolean | Prisma.OrderItem$deliveryArgs<ExtArgs>
 }
 export type OrderItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
@@ -1215,7 +1107,6 @@ export type $OrderItemPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     product: Prisma.$ProductPayload<ExtArgs>
     variant: Prisma.$ProductVariantPayload<ExtArgs> | null
     seller: Prisma.$SellerPayload<ExtArgs>
-    delivery: Prisma.$DeliveryPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1625,7 +1516,6 @@ export interface Prisma__OrderItemClient<T, Null = never, ExtArgs extends runtim
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   variant<T extends Prisma.OrderItem$variantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderItem$variantArgs<ExtArgs>>): Prisma.Prisma__ProductVariantClient<runtime.Types.Result.GetResult<Prisma.$ProductVariantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   seller<T extends Prisma.SellerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SellerDefaultArgs<ExtArgs>>): Prisma.Prisma__SellerClient<runtime.Types.Result.GetResult<Prisma.$SellerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  delivery<T extends Prisma.OrderItem$deliveryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderItem$deliveryArgs<ExtArgs>>): Prisma.Prisma__DeliveryClient<runtime.Types.Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2081,25 +1971,6 @@ export type OrderItem$variantArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.ProductVariantInclude<ExtArgs> | null
   where?: Prisma.ProductVariantWhereInput
-}
-
-/**
- * OrderItem.delivery
- */
-export type OrderItem$deliveryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Delivery
-   */
-  select?: Prisma.DeliverySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Delivery
-   */
-  omit?: Prisma.DeliveryOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DeliveryInclude<ExtArgs> | null
-  where?: Prisma.DeliveryWhereInput
 }
 
 /**

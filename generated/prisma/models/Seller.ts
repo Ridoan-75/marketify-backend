@@ -347,8 +347,6 @@ export type SellerWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   products?: Prisma.ProductListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
-  withdrawals?: Prisma.WithdrawalListRelationFilter
-  coupons?: Prisma.CouponListRelationFilter
 }
 
 export type SellerOrderByWithRelationInput = {
@@ -374,8 +372,6 @@ export type SellerOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   products?: Prisma.ProductOrderByRelationAggregateInput
   orderItems?: Prisma.OrderItemOrderByRelationAggregateInput
-  withdrawals?: Prisma.WithdrawalOrderByRelationAggregateInput
-  coupons?: Prisma.CouponOrderByRelationAggregateInput
 }
 
 export type SellerWhereUniqueInput = Prisma.AtLeast<{
@@ -404,8 +400,6 @@ export type SellerWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   products?: Prisma.ProductListRelationFilter
   orderItems?: Prisma.OrderItemListRelationFilter
-  withdrawals?: Prisma.WithdrawalListRelationFilter
-  coupons?: Prisma.CouponListRelationFilter
 }, "id" | "userId" | "shopSlug">
 
 export type SellerOrderByWithAggregationInput = {
@@ -482,8 +476,6 @@ export type SellerCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutSellerInput
   products?: Prisma.ProductCreateNestedManyWithoutSellerInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUncheckedCreateInput = {
@@ -508,8 +500,6 @@ export type SellerUncheckedCreateInput = {
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUpdateInput = {
@@ -534,8 +524,6 @@ export type SellerUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutSellerNestedInput
   products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateInput = {
@@ -560,8 +548,6 @@ export type SellerUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerCreateManyInput = {
@@ -773,20 +759,6 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type SellerCreateNestedOneWithoutWithdrawalsInput = {
-  create?: Prisma.XOR<Prisma.SellerCreateWithoutWithdrawalsInput, Prisma.SellerUncheckedCreateWithoutWithdrawalsInput>
-  connectOrCreate?: Prisma.SellerCreateOrConnectWithoutWithdrawalsInput
-  connect?: Prisma.SellerWhereUniqueInput
-}
-
-export type SellerUpdateOneRequiredWithoutWithdrawalsNestedInput = {
-  create?: Prisma.XOR<Prisma.SellerCreateWithoutWithdrawalsInput, Prisma.SellerUncheckedCreateWithoutWithdrawalsInput>
-  connectOrCreate?: Prisma.SellerCreateOrConnectWithoutWithdrawalsInput
-  upsert?: Prisma.SellerUpsertWithoutWithdrawalsInput
-  connect?: Prisma.SellerWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SellerUpdateToOneWithWhereWithoutWithdrawalsInput, Prisma.SellerUpdateWithoutWithdrawalsInput>, Prisma.SellerUncheckedUpdateWithoutWithdrawalsInput>
-}
-
 export type SellerCreateNestedOneWithoutProductsInput = {
   create?: Prisma.XOR<Prisma.SellerCreateWithoutProductsInput, Prisma.SellerUncheckedCreateWithoutProductsInput>
   connectOrCreate?: Prisma.SellerCreateOrConnectWithoutProductsInput
@@ -799,22 +771,6 @@ export type SellerUpdateOneRequiredWithoutProductsNestedInput = {
   upsert?: Prisma.SellerUpsertWithoutProductsInput
   connect?: Prisma.SellerWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SellerUpdateToOneWithWhereWithoutProductsInput, Prisma.SellerUpdateWithoutProductsInput>, Prisma.SellerUncheckedUpdateWithoutProductsInput>
-}
-
-export type SellerCreateNestedOneWithoutCouponsInput = {
-  create?: Prisma.XOR<Prisma.SellerCreateWithoutCouponsInput, Prisma.SellerUncheckedCreateWithoutCouponsInput>
-  connectOrCreate?: Prisma.SellerCreateOrConnectWithoutCouponsInput
-  connect?: Prisma.SellerWhereUniqueInput
-}
-
-export type SellerUpdateOneWithoutCouponsNestedInput = {
-  create?: Prisma.XOR<Prisma.SellerCreateWithoutCouponsInput, Prisma.SellerUncheckedCreateWithoutCouponsInput>
-  connectOrCreate?: Prisma.SellerCreateOrConnectWithoutCouponsInput
-  upsert?: Prisma.SellerUpsertWithoutCouponsInput
-  disconnect?: Prisma.SellerWhereInput | boolean
-  delete?: Prisma.SellerWhereInput | boolean
-  connect?: Prisma.SellerWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SellerUpdateToOneWithWhereWithoutCouponsInput, Prisma.SellerUpdateWithoutCouponsInput>, Prisma.SellerUncheckedUpdateWithoutCouponsInput>
 }
 
 export type SellerCreateNestedOneWithoutOrderItemsInput = {
@@ -852,8 +808,6 @@ export type SellerCreateWithoutUserInput = {
   updatedAt?: Date | string
   products?: Prisma.ProductCreateNestedManyWithoutSellerInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUncheckedCreateWithoutUserInput = {
@@ -877,8 +831,6 @@ export type SellerUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type SellerCreateOrConnectWithoutUserInput = {
@@ -918,8 +870,6 @@ export type SellerUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateWithoutUserInput = {
@@ -943,124 +893,6 @@ export type SellerUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutSellerNestedInput
-}
-
-export type SellerCreateWithoutWithdrawalsInput = {
-  id?: string
-  shopName: string
-  shopSlug: string
-  shopLogo?: string | null
-  shopBanner?: string | null
-  shopDescription?: string | null
-  shopPhone?: string | null
-  shopEmail?: string | null
-  shopAddress?: string | null
-  status?: $Enums.SellerStatus
-  rejectedReason?: string | null
-  totalSales?: number
-  totalEarnings?: number
-  balance?: number
-  rating?: number
-  ratingCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutSellerInput
-  products?: Prisma.ProductCreateNestedManyWithoutSellerInput
-  orderItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutSellerInput
-}
-
-export type SellerUncheckedCreateWithoutWithdrawalsInput = {
-  id?: string
-  userId: string
-  shopName: string
-  shopSlug: string
-  shopLogo?: string | null
-  shopBanner?: string | null
-  shopDescription?: string | null
-  shopPhone?: string | null
-  shopEmail?: string | null
-  shopAddress?: string | null
-  status?: $Enums.SellerStatus
-  rejectedReason?: string | null
-  totalSales?: number
-  totalEarnings?: number
-  balance?: number
-  rating?: number
-  ratingCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
-  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutSellerInput
-}
-
-export type SellerCreateOrConnectWithoutWithdrawalsInput = {
-  where: Prisma.SellerWhereUniqueInput
-  create: Prisma.XOR<Prisma.SellerCreateWithoutWithdrawalsInput, Prisma.SellerUncheckedCreateWithoutWithdrawalsInput>
-}
-
-export type SellerUpsertWithoutWithdrawalsInput = {
-  update: Prisma.XOR<Prisma.SellerUpdateWithoutWithdrawalsInput, Prisma.SellerUncheckedUpdateWithoutWithdrawalsInput>
-  create: Prisma.XOR<Prisma.SellerCreateWithoutWithdrawalsInput, Prisma.SellerUncheckedCreateWithoutWithdrawalsInput>
-  where?: Prisma.SellerWhereInput
-}
-
-export type SellerUpdateToOneWithWhereWithoutWithdrawalsInput = {
-  where?: Prisma.SellerWhereInput
-  data: Prisma.XOR<Prisma.SellerUpdateWithoutWithdrawalsInput, Prisma.SellerUncheckedUpdateWithoutWithdrawalsInput>
-}
-
-export type SellerUpdateWithoutWithdrawalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopSlug?: Prisma.StringFieldUpdateOperationsInput | string
-  shopLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumSellerStatusFieldUpdateOperationsInput | $Enums.SellerStatus
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalSales?: Prisma.IntFieldUpdateOperationsInput | number
-  totalEarnings?: Prisma.FloatFieldUpdateOperationsInput | number
-  balance?: Prisma.FloatFieldUpdateOperationsInput | number
-  rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutSellerNestedInput
-  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
-  orderItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutSellerNestedInput
-}
-
-export type SellerUncheckedUpdateWithoutWithdrawalsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopSlug?: Prisma.StringFieldUpdateOperationsInput | string
-  shopLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumSellerStatusFieldUpdateOperationsInput | $Enums.SellerStatus
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalSales?: Prisma.IntFieldUpdateOperationsInput | number
-  totalEarnings?: Prisma.FloatFieldUpdateOperationsInput | number
-  balance?: Prisma.FloatFieldUpdateOperationsInput | number
-  rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
-  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerCreateWithoutProductsInput = {
@@ -1084,8 +916,6 @@ export type SellerCreateWithoutProductsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSellerInput
   orderItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUncheckedCreateWithoutProductsInput = {
@@ -1109,8 +939,6 @@ export type SellerUncheckedCreateWithoutProductsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type SellerCreateOrConnectWithoutProductsInput = {
@@ -1150,8 +978,6 @@ export type SellerUpdateWithoutProductsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSellerNestedInput
   orderItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateWithoutProductsInput = {
@@ -1175,124 +1001,6 @@ export type SellerUncheckedUpdateWithoutProductsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutSellerNestedInput
-}
-
-export type SellerCreateWithoutCouponsInput = {
-  id?: string
-  shopName: string
-  shopSlug: string
-  shopLogo?: string | null
-  shopBanner?: string | null
-  shopDescription?: string | null
-  shopPhone?: string | null
-  shopEmail?: string | null
-  shopAddress?: string | null
-  status?: $Enums.SellerStatus
-  rejectedReason?: string | null
-  totalSales?: number
-  totalEarnings?: number
-  balance?: number
-  rating?: number
-  ratingCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutSellerInput
-  products?: Prisma.ProductCreateNestedManyWithoutSellerInput
-  orderItems?: Prisma.OrderItemCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutSellerInput
-}
-
-export type SellerUncheckedCreateWithoutCouponsInput = {
-  id?: string
-  userId: string
-  shopName: string
-  shopSlug: string
-  shopLogo?: string | null
-  shopBanner?: string | null
-  shopDescription?: string | null
-  shopPhone?: string | null
-  shopEmail?: string | null
-  shopAddress?: string | null
-  status?: $Enums.SellerStatus
-  rejectedReason?: string | null
-  totalSales?: number
-  totalEarnings?: number
-  balance?: number
-  rating?: number
-  ratingCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
-  orderItems?: Prisma.OrderItemUncheckedCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutSellerInput
-}
-
-export type SellerCreateOrConnectWithoutCouponsInput = {
-  where: Prisma.SellerWhereUniqueInput
-  create: Prisma.XOR<Prisma.SellerCreateWithoutCouponsInput, Prisma.SellerUncheckedCreateWithoutCouponsInput>
-}
-
-export type SellerUpsertWithoutCouponsInput = {
-  update: Prisma.XOR<Prisma.SellerUpdateWithoutCouponsInput, Prisma.SellerUncheckedUpdateWithoutCouponsInput>
-  create: Prisma.XOR<Prisma.SellerCreateWithoutCouponsInput, Prisma.SellerUncheckedCreateWithoutCouponsInput>
-  where?: Prisma.SellerWhereInput
-}
-
-export type SellerUpdateToOneWithWhereWithoutCouponsInput = {
-  where?: Prisma.SellerWhereInput
-  data: Prisma.XOR<Prisma.SellerUpdateWithoutCouponsInput, Prisma.SellerUncheckedUpdateWithoutCouponsInput>
-}
-
-export type SellerUpdateWithoutCouponsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopSlug?: Prisma.StringFieldUpdateOperationsInput | string
-  shopLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumSellerStatusFieldUpdateOperationsInput | $Enums.SellerStatus
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalSales?: Prisma.IntFieldUpdateOperationsInput | number
-  totalEarnings?: Prisma.FloatFieldUpdateOperationsInput | number
-  balance?: Prisma.FloatFieldUpdateOperationsInput | number
-  rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutSellerNestedInput
-  products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
-  orderItems?: Prisma.OrderItemUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUpdateManyWithoutSellerNestedInput
-}
-
-export type SellerUncheckedUpdateWithoutCouponsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopSlug?: Prisma.StringFieldUpdateOperationsInput | string
-  shopLogo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  shopAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumSellerStatusFieldUpdateOperationsInput | $Enums.SellerStatus
-  rejectedReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  totalSales?: Prisma.IntFieldUpdateOperationsInput | number
-  totalEarnings?: Prisma.FloatFieldUpdateOperationsInput | number
-  balance?: Prisma.FloatFieldUpdateOperationsInput | number
-  rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
-  orderItems?: Prisma.OrderItemUncheckedUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerCreateWithoutOrderItemsInput = {
@@ -1316,8 +1024,6 @@ export type SellerCreateWithoutOrderItemsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSellerInput
   products?: Prisma.ProductCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponCreateNestedManyWithoutSellerInput
 }
 
 export type SellerUncheckedCreateWithoutOrderItemsInput = {
@@ -1341,8 +1047,6 @@ export type SellerUncheckedCreateWithoutOrderItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutSellerInput
-  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutSellerInput
-  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type SellerCreateOrConnectWithoutOrderItemsInput = {
@@ -1382,8 +1086,6 @@ export type SellerUpdateWithoutOrderItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSellerNestedInput
   products?: Prisma.ProductUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUpdateManyWithoutSellerNestedInput
 }
 
 export type SellerUncheckedUpdateWithoutOrderItemsInput = {
@@ -1407,8 +1109,6 @@ export type SellerUncheckedUpdateWithoutOrderItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutSellerNestedInput
-  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutSellerNestedInput
-  coupons?: Prisma.CouponUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 
@@ -1419,15 +1119,11 @@ export type SellerUncheckedUpdateWithoutOrderItemsInput = {
 export type SellerCountOutputType = {
   products: number
   orderItems: number
-  withdrawals: number
-  coupons: number
 }
 
 export type SellerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | SellerCountOutputTypeCountProductsArgs
   orderItems?: boolean | SellerCountOutputTypeCountOrderItemsArgs
-  withdrawals?: boolean | SellerCountOutputTypeCountWithdrawalsArgs
-  coupons?: boolean | SellerCountOutputTypeCountCouponsArgs
 }
 
 /**
@@ -1454,20 +1150,6 @@ export type SellerCountOutputTypeCountOrderItemsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.OrderItemWhereInput
 }
 
-/**
- * SellerCountOutputType without action
- */
-export type SellerCountOutputTypeCountWithdrawalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WithdrawalWhereInput
-}
-
-/**
- * SellerCountOutputType without action
- */
-export type SellerCountOutputTypeCountCouponsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CouponWhereInput
-}
-
 
 export type SellerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1492,8 +1174,6 @@ export type SellerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Seller$productsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Seller$orderItemsArgs<ExtArgs>
-  withdrawals?: boolean | Prisma.Seller$withdrawalsArgs<ExtArgs>
-  coupons?: boolean | Prisma.Seller$couponsArgs<ExtArgs>
   _count?: boolean | Prisma.SellerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seller"]>
 
@@ -1570,8 +1250,6 @@ export type SellerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Seller$productsArgs<ExtArgs>
   orderItems?: boolean | Prisma.Seller$orderItemsArgs<ExtArgs>
-  withdrawals?: boolean | Prisma.Seller$withdrawalsArgs<ExtArgs>
-  coupons?: boolean | Prisma.Seller$couponsArgs<ExtArgs>
   _count?: boolean | Prisma.SellerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SellerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1587,8 +1265,6 @@ export type $SellerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     user: Prisma.$UserPayload<ExtArgs>
     products: Prisma.$ProductPayload<ExtArgs>[]
     orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
-    withdrawals: Prisma.$WithdrawalPayload<ExtArgs>[]
-    coupons: Prisma.$CouponPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2007,8 +1683,6 @@ export interface Prisma__SellerClient<T, Null = never, ExtArgs extends runtime.T
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   products<T extends Prisma.Seller$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Seller$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orderItems<T extends Prisma.Seller$orderItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Seller$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  withdrawals<T extends Prisma.Seller$withdrawalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Seller$withdrawalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WithdrawalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  coupons<T extends Prisma.Seller$couponsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Seller$couponsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2503,54 +2177,6 @@ export type Seller$orderItemsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.OrderItemScalarFieldEnum | Prisma.OrderItemScalarFieldEnum[]
-}
-
-/**
- * Seller.withdrawals
- */
-export type Seller$withdrawalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Withdrawal
-   */
-  select?: Prisma.WithdrawalSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Withdrawal
-   */
-  omit?: Prisma.WithdrawalOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WithdrawalInclude<ExtArgs> | null
-  where?: Prisma.WithdrawalWhereInput
-  orderBy?: Prisma.WithdrawalOrderByWithRelationInput | Prisma.WithdrawalOrderByWithRelationInput[]
-  cursor?: Prisma.WithdrawalWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.WithdrawalScalarFieldEnum | Prisma.WithdrawalScalarFieldEnum[]
-}
-
-/**
- * Seller.coupons
- */
-export type Seller$couponsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Coupon
-   */
-  select?: Prisma.CouponSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Coupon
-   */
-  omit?: Prisma.CouponOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CouponInclude<ExtArgs> | null
-  where?: Prisma.CouponWhereInput
-  orderBy?: Prisma.CouponOrderByWithRelationInput | Prisma.CouponOrderByWithRelationInput[]
-  cursor?: Prisma.CouponWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CouponScalarFieldEnum | Prisma.CouponScalarFieldEnum[]
 }
 
 /**

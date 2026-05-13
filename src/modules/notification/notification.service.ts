@@ -5,10 +5,8 @@ import { paginate, paginateMeta } from "../../utils/paginate";
 type NotificationType =
   | "ORDER"
   | "PAYMENT"
-  | "CHAT"
   | "REVIEW"
-  | "SYSTEM"
-  | "PROMOTION";
+  | "SYSTEM";
 
 export const createNotificationService = async (
   userId: string,

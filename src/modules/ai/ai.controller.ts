@@ -7,7 +7,6 @@ import {
   generatePricingSuggestionService,
   analyzeReviewSentimentService,
   aiSearchService,
-  generateSmartReplyService,
   aiChatbotService,
   getRecommendationsService,
 } from "./ai.service";
@@ -60,21 +59,6 @@ export const smartSearch = asyncHandler(async (req: Request, res: Response) => {
   const result = await aiSearchService(query);
   sendResponse({ res, message: "Search results.", data: result });
 });
-
-export const smartReply = asyncHandler(
-  async (req: AuthRequest, res: Response) => {
-    const seller = await prisma.seller.findUnique({
-      where: { userId: req.user!.id },
-    });
-    if (!seller) throw new AppError("Seller not found", 404);
-
-    const result = await generateSmartReplyService(
-      seller.id,
-      req.params.conversationId as string,
-    );
-    sendResponse({ res, message: "Smart replies generated.", data: result });
-  },
-);
 
 export const chatbot = asyncHandler(async (req: AuthRequest, res: Response) => {
   const { message, history } = req.body;

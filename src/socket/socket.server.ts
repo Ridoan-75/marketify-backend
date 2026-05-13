@@ -3,7 +3,6 @@ import { Server as SocketServer, Socket } from "socket.io";
 import { env } from "../config/index";
 import { verifyAccessToken } from "../utils/generateToken";
 import { prisma } from "../lib/prisma";
-import { registerChatEvents } from "./events/chat.events";
 import { registerNotificationEvents } from "./events/notification.events";
 
 export let io: SocketServer;
@@ -56,7 +55,6 @@ export const initSocket = (httpServer: HttpServer): void => {
     // join personal room for notifications
     socket.join(`user:${user.id}`);
 
-    registerChatEvents(io, socket);
     registerNotificationEvents(io, socket);
 
     socket.on("disconnect", () => {

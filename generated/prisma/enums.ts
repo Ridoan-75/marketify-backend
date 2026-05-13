@@ -20,7 +20,8 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const AuthProvider = {
   EMAIL: 'EMAIL',
-  GOOGLE: 'GOOGLE'
+  GOOGLE: 'GOOGLE',
+  FACEBOOK: 'FACEBOOK'
 } as const
 
 export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]
@@ -74,86 +75,20 @@ export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 export const PaymentMethod = {
   STRIPE: 'STRIPE',
-  SSLCOMMERZ: 'SSLCOMMERZ',
-  BKASH: 'BKASH',
-  NAGAD: 'NAGAD',
   COD: 'COD'
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
-export const DeliveryStatus = {
-  NOT_INITIATED: 'NOT_INITIATED',
-  PICKUP_PENDING: 'PICKUP_PENDING',
-  PICKED_UP: 'PICKED_UP',
-  IN_TRANSIT: 'IN_TRANSIT',
-  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
-  DELIVERED: 'DELIVERED',
-  FAILED: 'FAILED',
-  RETURNED: 'RETURNED'
-} as const
-
-export type DeliveryStatus = (typeof DeliveryStatus)[keyof typeof DeliveryStatus]
-
-
-export const DeliveryProvider = {
-  PATHAO: 'PATHAO',
-  STEADFAST: 'STEADFAST',
-  MANUAL: 'MANUAL'
-} as const
-
-export type DeliveryProvider = (typeof DeliveryProvider)[keyof typeof DeliveryProvider]
-
-
-export const BannerPosition = {
-  HERO: 'HERO',
-  MIDDLE: 'MIDDLE',
-  SIDEBAR: 'SIDEBAR',
-  FOOTER: 'FOOTER'
-} as const
-
-export type BannerPosition = (typeof BannerPosition)[keyof typeof BannerPosition]
-
-
 export const NotificationType = {
   ORDER: 'ORDER',
   PAYMENT: 'PAYMENT',
-  CHAT: 'CHAT',
   REVIEW: 'REVIEW',
-  SYSTEM: 'SYSTEM',
-  PROMOTION: 'PROMOTION'
+  SYSTEM: 'SYSTEM'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
-
-
-export const CouponType = {
-  PERCENTAGE: 'PERCENTAGE',
-  FIXED: 'FIXED'
-} as const
-
-export type CouponType = (typeof CouponType)[keyof typeof CouponType]
-
-
-export const WithdrawalStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  COMPLETED: 'COMPLETED'
-} as const
-
-export type WithdrawalStatus = (typeof WithdrawalStatus)[keyof typeof WithdrawalStatus]
-
-
-export const MessageType = {
-  TEXT: 'TEXT',
-  IMAGE: 'IMAGE',
-  FILE: 'FILE',
-  PRODUCT_LINK: 'PRODUCT_LINK'
-} as const
-
-export type MessageType = (typeof MessageType)[keyof typeof MessageType]
 
 
 export const DisputeStatus = {

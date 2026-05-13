@@ -12,6 +12,7 @@ import { authorize } from '../../middlewares/role.middleware';
 import { validate } from '../../middlewares/validate.middleware';
 import { uploadProduct } from '../../middlewares/upload.middleware';
 import { createReviewSchema, updateReviewSchema } from './review.validation';
+import { getAllReviewsService } from './review.service';
 
 const reviewRouter = Router();
 
@@ -43,6 +44,14 @@ reviewRouter.patch(
   authenticate,
   authorize('ADMIN'),
   toggleReviewVisibility
+);
+
+// admin only
+reviewRouter.get(
+  '/all',
+  authenticate,
+  authorize('ADMIN'),
+  getAllReviewsService
 );
 
 export { reviewRouter };

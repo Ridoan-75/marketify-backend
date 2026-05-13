@@ -1,6 +1,6 @@
-import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../errors/AppError";
+import { admin } from "../../config/firebase";
 import {
   UpdateProfileInput,
   ChangePasswordInput,
@@ -66,15 +66,23 @@ export const changePasswordService = async (
   data: ChangePasswordInput,
 ) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user || !user.password) throw new AppError("User not found", 404);
+  if (!user) throw new AppError("User not found", 404);
 
-  const isMatch = await bcrypt.compare(data.currentPassword, user.password);
-  if (!isMatch) throw new AppError("Current password is incorrect", 400);
+  // Social login (Google/Facebook) users can't change password via this endpoint
+  if (user.provider !== "EMAIL") {
+    throw new AppError(
+      "Social login users cannot change password. Please manage your password through your provider.",
+      400,
+    );
+  }
 
-  const hashed = await bcrypt.hash(data.newPassword, 12);
-  await prisma.user.update({
-    where: { id: userId },
-    data: { password: hashed },
+  if (!user.firebaseUid) {
+    throw new AppError("User account is not linked to Firebase.", 400);
+  }
+
+  // Update password via Firebase Admin SDK
+  await admin.auth().updateUser(user.firebaseUid, {
+    password: data.newPassword,
   });
 
   return true;

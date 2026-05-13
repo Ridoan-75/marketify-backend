@@ -1,26 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const stripeIntentSchema = z.object({
+export const initiatePaymentSchema = z.object({
   body: z.object({
-    orderId: z.string().min(1, 'Order ID is required'),
-  }),
-});
-
-export const sslcommerzInitSchema = z.object({
-  body: z.object({
-    orderId: z.string().min(1, 'Order ID is required'),
-  }),
-});
-
-export const bkashInitSchema = z.object({
-  body: z.object({
-    orderId: z.string().min(1, 'Order ID is required'),
-  }),
-});
-
-export const verifyPaymentSchema = z.object({
-  body: z.object({
-    orderId: z.string().min(1, 'Order ID is required'),
-    transactionId: z.string().min(1, 'Transaction ID is required'),
+    orderId: z.string().min(1, "Order ID is required"),
+    method: z.enum(["STRIPE", "COD"], {
+      error: "Payment method must be STRIPE or COD",
+    }),
   }),
 });

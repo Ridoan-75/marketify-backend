@@ -8,7 +8,6 @@ import {
   updateCartItemService,
   removeFromCartService,
   clearCartService,
-  validateCouponService,
 } from "./cart.service";
 
 export const getCart = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -50,17 +49,5 @@ export const clearCart = asyncHandler(
   async (req: AuthRequest, res: Response) => {
     await clearCartService(req.user!.id);
     sendResponse({ res, message: "Cart cleared." });
-  },
-);
-
-export const validateCoupon = asyncHandler(
-  async (req: AuthRequest, res: Response) => {
-    const { code, subtotal } = req.body;
-    const result = await validateCouponService(req.user!.id, code, subtotal);
-    sendResponse({
-      res,
-      message: "Coupon applied successfully.",
-      data: result,
-    });
   },
 );

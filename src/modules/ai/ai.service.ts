@@ -279,65 +279,6 @@ Respond ONLY in this JSON format:
 };
 
 // ============================================================
-// AI SMART REPLY FOR SELLER
-// ============================================================
-
-export const generateSmartReplyService = async (
-  sellerId: string,
-  conversationId: string,
-) => {
-  const messages = await prisma.message.findMany({
-    where: { conversationId, isDeleted: false },
-    take: 10,
-    orderBy: { createdAt: "desc" },
-    include: {
-      sender: { select: { name: true } },
-    },
-  });
-
-  const conversation = messages
-    .reverse()
-    .map((m) => `${m.sender.name}: ${m.content}`)
-    .join("\n");
-
-  const prompt = `
-You are a helpful seller assistant for a Bangladeshi e-commerce marketplace called Marketify.
-
-Based on this conversation, suggest 3 quick replies the seller can send:
-
-Conversation:
-${conversation}
-
-Requirements:
-- Replies should be helpful, professional, and concise
-- Keep them short (1-2 sentences each)
-- Relevant to the last customer message
-- In English
-
-Respond ONLY in this JSON format:
-{
-  "replies": ["reply1", "reply2", "reply3"]
-}
-`;
-
-  const result = await geminiModel.generateContent(prompt);
-  const text = result.response.text();
-
-  let parsed: { replies: string[] };
-
-  try {
-    const cleaned = text.replace(/```json|```/g, "").trim();
-    parsed = JSON.parse(cleaned);
-  } catch {
-    throw new AppError("Failed to parse AI response", 500);
-  }
-
-  await logAiUsage("smart_reply", conversation, text, sellerId);
-
-  return parsed;
-};
-
-// ============================================================
 // AI CHATBOT FOR USER SUPPORT
 // ============================================================
 
