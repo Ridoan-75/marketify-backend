@@ -1,45 +1,48 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   createReview,
   getProductReviews,
+  getMyReviews,
   updateReview,
   deleteReview,
   toggleReviewVisibility,
-} from "./review.controller";
-import { authenticate } from "../../middlewares/auth.middleware";
-import { authorize } from "../../middlewares/role.middleware";
-import { validate } from "../../middlewares/validate.middleware";
-import { uploadProduct } from "../../middlewares/upload.middleware";
-import { createReviewSchema, updateReviewSchema } from "./review.validation";
+} from './review.controller';
+import { authenticate } from '../../middlewares/auth.middleware';
+import { authorize } from '../../middlewares/role.middleware';
+import { validate } from '../../middlewares/validate.middleware';
+import { uploadProduct } from '../../middlewares/upload.middleware';
+import { createReviewSchema, updateReviewSchema } from './review.validation';
 
 const reviewRouter = Router();
 
-reviewRouter.get("/product/:productId", getProductReviews);
+reviewRouter.get('/product/:productId', getProductReviews);
+
+reviewRouter.get('/my-reviews', authenticate, getMyReviews);
 
 reviewRouter.post(
-  "/",
+  '/',
   authenticate,
-  authorize("USER"),
-  uploadProduct.array("images", 5),
+  authorize('USER'),
+  uploadProduct.array('images', 5),
   validate(createReviewSchema),
-  createReview,
+  createReview
 );
 
 reviewRouter.patch(
-  "/:id",
+  '/:id',
   authenticate,
-  authorize("USER"),
+  authorize('USER'),
   validate(updateReviewSchema),
-  updateReview,
+  updateReview
 );
 
-reviewRouter.delete("/:id", authenticate, authorize("USER"), deleteReview);
+reviewRouter.delete('/:id', authenticate, authorize('USER'), deleteReview);
 
 reviewRouter.patch(
-  "/:id/visibility",
+  '/:id/visibility',
   authenticate,
-  authorize("ADMIN"),
-  toggleReviewVisibility,
+  authorize('ADMIN'),
+  toggleReviewVisibility
 );
 
 export { reviewRouter };

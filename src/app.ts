@@ -17,8 +17,15 @@ app.use(cookieParser());
 
 // stripe webhook needs raw body — must be before express.json()
 app.use(
-  "/api/v1/payment/stripe/webhook",
-  express.raw({ type: "application/json" }),
+  cors({
+    origin: [
+      'http://localhost:3000',
+      env.CLIENT_URL,
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
 );
 
 app.use(express.json({ limit: "10mb" }));

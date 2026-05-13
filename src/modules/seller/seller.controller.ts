@@ -10,6 +10,9 @@ import {
   updateShopLogoService,
   updateShopBannerService,
   getSellerDashboardService,
+  getFeaturedSellersService,
+  getSellerWithdrawalsService,
+  requestWithdrawalService,
 } from "./seller.service";
 
 export const registerSeller = asyncHandler(
@@ -92,6 +95,32 @@ export const getSellerDashboard = asyncHandler(
       res,
       message: "Dashboard fetched successfully.",
       data: dashboard,
+    });
+  },
+);
+
+export const getFeaturedSellers = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const sellers = await getFeaturedSellersService();
+    sendResponse({ res, message: "Featured sellers fetched.", data: sellers });
+  },
+);
+
+export const getSellerWithdrawals = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const withdrawals = await getSellerWithdrawalsService(req.user!.id);
+    sendResponse({ res, message: "Withdrawals fetched.", data: withdrawals });
+  },
+);
+
+export const requestWithdrawal = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const withdrawal = await requestWithdrawalService(req.user!.id, req.body);
+    sendResponse({
+      res,
+      statusCode: 201,
+      message: "Withdrawal request submitted.",
+      data: withdrawal,
     });
   },
 );

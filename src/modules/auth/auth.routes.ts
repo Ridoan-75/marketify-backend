@@ -8,6 +8,7 @@ import {
   logout,
   forgotPassword,
   resetPassword,
+  socialLogin,
 } from "./auth.controller";
 import { validate } from "../../middlewares/validate.middleware";
 import { authenticate } from "../../middlewares/auth.middleware";
@@ -38,5 +39,7 @@ authRouter.post(
   validate(resetPasswordSchema),
   resetPassword,
 );
+
+authRouter.post('/social', socialLogin);
 
 export { authRouter };

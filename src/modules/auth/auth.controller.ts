@@ -11,6 +11,7 @@ import {
   logoutService,
   forgotPasswordService,
   resetPasswordService,
+  socialLoginService,
 } from "./auth.service";
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
@@ -72,3 +73,9 @@ export const resetPassword = asyncHandler(
     sendResponse({ res, message: "Password reset successfully." });
   },
 );
+
+
+export const socialLogin = asyncHandler(async (req: Request, res: Response) => {
+  const result = await socialLoginService(req.body);
+  sendResponse({ res, message: 'Login successful.', data: result });
+});

@@ -143,3 +143,20 @@ export const toggleReviewVisibilityService = async (reviewId: string) => {
   await updateProductRating(review.productId);
   return updated;
 };
+
+export const getMyReviewsService = async (userId: string) => {
+  return prisma.review.findMany({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+    include: {
+      product: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          images: { where: { isPrimary: true }, take: 1 },
+        },
+      },
+    },
+  });
+};

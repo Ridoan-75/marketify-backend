@@ -181,3 +181,52 @@ export const getSellerDashboardService = async (userId: string) => {
     recentOrders,
   };
 };
+
+export const getFeaturedSellersService = async () => {
+  return prisma.seller.findMany({
+    where: { status: 'APPROVED' },
+    take: 12,
+    orderBy: [{ rating: 'desc' }, { totalSales: 'desc' }],
+    select: {
+      id: true,
+      shopName: true,
+      shopSlug: true,
+      shopLogo: true,
+      rating: true,
+      ratingCount: true,
+      totalSales: true,
+      _count: { select: { products: true } },
+    },
+  });
+};
+
+export const getSellerWithdrawalsService = async (userId: string) => {
+  const seller = await prisma.seller.findUnique({ where: { userId } });
+  if (!seller) throw new AppError('Seller not found', 404);
+
+  return prisma.withdrawal.findMany({
+    where: { sellerId: seller.id },
+    orderBy: { createdAt: 'desc' },
+  });
+};
+
+export const requestWithdrawalService = async (
+  userId: string,
+  data: { amount: number; method: string; accountNo: string }
+) => {
+  const seller = await prisma.seller.findUnique({ where: { userId } });
+  if (!seller) throw new AppError('Seller not found', 404);
+  if (seller.balance < data.amount)
+    throw new AppError('Insufficient balance', 400);
+  if (data.amount < 100)
+    throw new AppError('Minimum withdrawal amount is 100 BDT', 400);
+
+  return prisma.withdrawal.create({
+    data: {
+      sellerId: seller.id,
+      amount: data.amount,
+      method: data.method,
+      accountNo: data.accountNo,
+    },
+  });
+};

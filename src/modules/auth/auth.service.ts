@@ -160,3 +160,49 @@ export const resetPasswordService = async (data: ResetPasswordInput) => {
 
   return true;
 };
+
+export const socialLoginService = async (data: {
+  name: string;
+  email: string;
+  avatar?: string;
+  provider: 'GOOGLE' | 'FACEBOOK';
+}) => {
+  let user = await prisma.user.findUnique({ where: { email: data.email } });
+
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        avatar: data.avatar,
+        provider: data.provider === 'GOOGLE' ? 'GOOGLE' : 'EMAIL',
+        isEmailVerified: true,
+        isActive: true,
+      },
+    });
+  }
+
+  if (user.isBanned) throw new AppError('Your account has been banned', 403);
+
+  const accessToken = generateAccessToken(user.id, user.role);
+  const refreshToken = generateRefreshToken(user.id);
+
+  await redis.set(
+    `refresh:${user.id}`,
+    refreshToken,
+    'EX',
+    7 * 24 * 60 * 60
+  );
+
+  return {
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar,
+    },
+    accessToken,
+    refreshToken,
+  };
+};
